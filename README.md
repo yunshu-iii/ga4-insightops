@@ -6,7 +6,7 @@ InsightOps 是一个本地可复跑的 AI 增长智能洞察平台。它把公�
 
 ## 当前阶段
 
-本地 MVP 已完成公开数据接入、Raw/Staging/Mart、质量门禁、漏斗、客户价值、异常检测守护、受限 Insight Agent、人工复核、合成 Golden Questions、报告、回归入口、CI 工作流、性能基线、干净 Docker 初始化和浏览器 QA。GitHub 远端发布与首次云端 CI 仍需用户注册账号后明确授权。
+本地 MVP 已完成公开数据接入、Raw/Staging/Mart、质量门禁、漏斗、客户价值、异常检测守护、受限 Insight Agent、人工复核、合成 Golden Questions、报告、回归入口、CI 工作流、性能基线、干净 Docker 初始化和浏览器 QA。项目已推送至私人 GitHub 仓库；首次云端 CI 的环境缺陷已修复并通过，云端仅执行不依赖数据或 `.env` 的代码检查。
 
 ## 本地前置条件
 

@@ -644,6 +644,42 @@
 - `tests/test_prepare_ga4_segmented_import.py`
 - `docs/ga4_full_refresh.md`
 
+## 步骤 27：私人 GitHub 发布与首次云端 CI 验证
+
+### 原定目标
+
+在用户注册 GitHub 并明确授权后，创建私人远端、仅提交已预检的项目源文件、完成本机身份认证、推送 `main` 分支并实际核验 GitHub Actions 的首次云端代码检查。
+
+### 实际完成
+
+- 用户创建私人仓库后，本地初始分支规范为 `main`，首次提交 `06edf6d` 仅包含 107 个预检项目文件：源码、SQL、测试、Notebook、文档、配置模板、CI 与空目录占位文件。
+- 推送前扩展 `.gitignore`，确保 `.env`、所有数据、证据包、生成报告、性能/回归收据均不进入版本库；同时移除文档中的本机绝对路径与 Cloud 项目 ID。暂存内容通过 whitespace 和敏感模式扫描。
+- 本机初次 HTTPS 推送因未认证而安全失败，未上传文件；经用户允许安装 GitHub CLI 并完成官方设备代码授权后，成功推送私人 `main` 分支。
+- 首次 Quality CI 发现工作流只在系统 Python 安装依赖、而 `Makefile` 固定使用 `.venv` 的干净环境缺陷。提交 `f689b31` 后，工作流显式创建 `.venv` 并安装依赖；第二次 Quality 运行在 48 秒内通过。
+
+### 遇到的问题与解决
+
+| 问题 | 解决方式 |
+| --- | --- |
+| 本机没有 GitHub HTTPS 凭据 | 不要求用户提供密码或 Token；经明确授权安装 GitHub CLI，使用 GitHub 官方浏览器设备授权，凭据由系统凭据存储管理。 |
+| GitHub Actions 第一次失败，日志显示 `.venv/bin/ruff` 不存在 | 保持 `Makefile` 的本地可复跑契约不变；修改工作流先创建 `.venv`，再从 `requirements.txt` 安装依赖，重跑云端验证通过。 |
+| 项目资料中可能包含本机路径、Cloud 项目 ID、原始数据或生成物 | 推送前采用明确 allowlist 暂存、`.gitignore` 排除与敏感模式扫描；首次提交不含上述内容。 |
+
+### 自检与测试
+
+- 暂存预检通过：107 个初始文件均在允许范围，`git diff --cached --check` 无错误，敏感模式扫描无本机路径、Cloud 项目 ID、邮箱、联系方式或个人身份信息命中。
+- CI 修复在本机执行 `make test` 通过：37 个 Python 文件格式正确、Ruff/编译通过、pytest 22/22 通过。
+- GitHub Actions Quality 第二次实际运行通过：checkout、Python 3.11、虚拟环境、依赖安装与 `make test` 全部成功。首次失败运行保留为真实历史记录，未被删除或改写。
+- 未覆盖边界：私人仓库仅验证代码 CI；真实数据回归仍按设计在本地执行，不进入云端。GitHub 运行器提示依赖 action 的 Node 20 弃用，但本次被运行器兼容处理且不影响通过结论；后续可在 action 升级时再复核。
+
+### 证据
+
+- `.github/workflows/quality.yml`
+- `.gitignore`
+- `docs/execution_rules.md`
+- `docs/project_state.md`
+- GitHub Actions Quality 云端运行记录（私人仓库）
+
 ## 步骤 26：发布前最终交付对账与交接包
 
 ### 原定目标

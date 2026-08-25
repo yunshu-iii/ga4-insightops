@@ -57,5 +57,5 @@ make clean-bootstrap
 
 ## 已知后续优化
 
-- GitHub Actions 工作流已准备，但尚未有本地提交、远端仓库或首次云端运行；待用户注册账号并明确授权后再执行，不能把本地 `make test` 表述为云端 CI 已通过。
+- GitHub Actions 的首次 Quality 运行实际执行。初版因未创建 `.venv` 而失败；工作流现先创建 `.venv`、安装 `requirements.txt` 后运行 `make test`，修复后的第二次云端运行通过。云端只验证源码，不访问本地数据库、数据、报告或 `.env`。
 - 本地报告已完成桌面与 390px 窄屏 QA；外网托管、跨浏览器矩阵、无障碍人工验收与多人/RBAC 仍属于部署前的后续能力。
