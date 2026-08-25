@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS insightops_raw
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_0900_ai_ci;
+
+CREATE DATABASE IF NOT EXISTS insightops_dw
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_0900_ai_ci;
+
+CREATE DATABASE IF NOT EXISTS insightops_mart
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_0900_ai_ci;
+
+CREATE DATABASE IF NOT EXISTS insightops_ops
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_0900_ai_ci;

@@ -1,0 +1,11 @@
+[mysqld]
+# Safe local-development baseline for an 8 GB machine.
+innodb_buffer_pool_size=1G
+innodb_buffer_pool_instances=1
+max_connections=30
+tmp_table_size=64M
+max_heap_table_size=64M
+slow_query_log=ON
+long_query_time=0.5
+log_queries_not_using_indexes=OFF
+local_infile=ON

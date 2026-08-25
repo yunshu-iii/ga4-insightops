@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+
+# Secrets and local environment
+.env
+
+# Local data and generated outputs
+data/inbound/*
+data/staged/*
+data/synthetic/*
+artifacts/sample_outputs/*
+artifacts/run_traces/*
+artifacts/performance/*
+artifacts/regression/*
+artifacts/evidence_packages/*
+artifacts/reports/*
+
+# Keep the project folders in Git
+!data/inbound/.gitkeep
+!data/staged/.gitkeep
+!data/synthetic/.gitkeep
+!artifacts/sample_outputs/.gitkeep
+!artifacts/run_traces/.gitkeep
+!artifacts/evidence_packages/.gitkeep
+!artifacts/reports/.gitkeep
+
+# System and editor files
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,9 @@
+services:
+  mysql:
+    container_name: insightops-clean-bootstrap-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${CLEAN_MYSQL_ROOT_PASSWORD:?Set CLEAN_MYSQL_ROOT_PASSWORD}
+
+volumes:
+  mysql_data:
+    name: insightops-clean-bootstrap-mysql-data
