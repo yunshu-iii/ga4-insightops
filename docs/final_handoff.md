@@ -13,7 +13,7 @@
 | 受限 Agent 与人工复核 | 已完成 | 版本化 Evidence Package、引用约束与本地 Streamlit 审阅流程，详见 `docs/insight_agent.md` 与 `docs/streamlit_review_console.md` |
 | HTML/Markdown 报告 | 已完成 | 完整报告在 `artifacts/reports/full_ga4_92d/`；桌面、来源 tooltip、分页与 390px 窄屏 QA 已通过 |
 | 本地代码与数据回归 | 已完成 | pytest 22/22；完整批次回归 `PASSED`，收据为 `artifacts/regression/full_ga4_latest.json` |
-| GitHub 提交、私人远端与首次云端 CI | 待明确授权 | 用户账号已注册；工作流已就绪，但尚未初始化提交、创建远端或执行云端运行 |
+| GitHub 提交、私人远端与首次云端 CI | 等待本机认证 | 私人远端已创建，本地初始提交 `06edf6d` 已就绪；首次 HTTPS 推送尚未认证，远端仍未接收文件 |
 | 3–5 分钟录屏视频 | 不需要 | 用户明确不需要录制；`docs/demo_runbook.md` 仅作为可选展示材料保留 |
 
 ## 架构图
@@ -54,5 +54,5 @@ make regression-full  # 92 天完整 GA4 批次与独立报告的本地只读回
 
 ## 后续外部发布顺序
 
-1. 用户明确授权后：创建私人远端仓库、仅提交项目源文件并推送，随后核验 GitHub Actions 首次运行。
+1. 完成本机 GitHub 身份认证后：仅推送已预检的项目源文件，随后核验 GitHub Actions 首次运行。
 3. 仅在外网部署前补齐身份认证、访问控制、集中审阅存储、跨浏览器与无障碍验收。
