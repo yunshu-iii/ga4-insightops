@@ -6,7 +6,9 @@ InsightOps 是一个本地可复跑的 AI 增长智能洞察平台。它把公�
 
 ## 当前阶段
 
-本地 MVP 已完成公开数据接入、Raw/Staging/Mart、质量门禁、漏斗、客户价值、异常检测守护、受限 Insight Agent、人工复核、合成 Golden Questions、报告、回归入口、CI 工作流、性能基线、干净 Docker 初始化和浏览器 QA。项目已推送至私人 GitHub 仓库；首次云端 CI 的环境缺陷已修复并通过，云端仅执行不依赖数据或 `.env` 的代码检查。
+本地 MVP 已完成公开数据接入、Raw/Staging/Mart、质量门禁、漏斗、客户价值、异常检测守护、受限 Insight Agent、人工复核、合成 Golden Questions、报告、回归入口、CI 工作流、性能基线、干净 Docker 初始化和浏览器 QA。源码已公开，代码使用 [MIT 许可证](LICENSE)。云端仅执行不依赖数据或 `.env` 的代码检查与依赖安全扫描。
+
+本项目用于本地技术验证。MySQL 与审阅台默认只监听 `127.0.0.1`；审阅台没有多用户登录，不应直接部署到公网。安全配置、依赖更新和旧数据卷迁移见 [安全说明](SECURITY.md)。数据集许可仍按 [来源登记](docs/data_access.md) 分别适用，MIT 不替代数据集许可。
 
 ## 本地前置条件
 
@@ -35,7 +37,7 @@ docker compose ps
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+pip install --require-hashes -r requirements.lock
 ```
 
 ## 目录说明

@@ -8,6 +8,13 @@ __pycache__/
 
 # Secrets and local environment
 .env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+credentials/
+service-account*.json
+*.pem
+*.key
 
 # Local data and generated outputs
 data/inbound/*
@@ -19,6 +26,7 @@ artifacts/performance/*
 artifacts/regression/*
 artifacts/evidence_packages/*
 artifacts/reports/*
+artifacts/reviews/
 
 # Keep the project folders in Git
 !data/inbound/.gitkeep

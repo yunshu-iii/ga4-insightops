@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from datetime import UTC, datetime
+from html import escape
 from pathlib import Path
 from uuid import uuid4
 
@@ -62,7 +63,7 @@ def main() -> None:
             "审阅证据包", evidence_paths, format_func=lambda item: item.name
         )
         st.caption("只读证据 · 人工复核 · 不执行业务动作")
-    package = EvidencePackage.model_validate_json(selected_path.read_text())
+    package = EvidencePackage.model_validate_json(selected_path.read_text(encoding="utf-8"))
     question = st.text_input("审阅问题", value="这些异常是否代表业务增长？")
     response = answer_from_evidence(question, package)
     evidence_sha = digest(selected_path.read_bytes())
@@ -125,7 +126,7 @@ def main() -> None:
         ]:
             st.markdown(
                 f'<div class="ledger"><div class="ledger-label">{label}</div>'
-                f'<div class="ledger-value">{value}</div></div>',
+                f'<div class="ledger-value">{escape(str(value))}</div></div>',
                 unsafe_allow_html=True,
             )
     with answer_tab:
@@ -135,7 +136,7 @@ def main() -> None:
             css_class = "limitation" if claim.claim_type == "limitation" else "claim"
             st.markdown(
                 f'<div class="claim {css_class}"><strong>{claim.claim_type}</strong><br>'
-                f"{claim.text}</div>",
+                f"{escape(claim.text)}</div>",
                 unsafe_allow_html=True,
             )
             if claim.evidence:
@@ -186,9 +187,10 @@ def main() -> None:
                     / f"review_{datetime.now(UTC):%Y%m%dT%H%M%SZ}_{uuid4().hex[:8]}.json"
                 )
                 output.write_text(
-                    json.dumps(record.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n"
+                    json.dumps(record.model_dump(mode="json"), ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
                 )
-                st.success(f"已保存本地审阅记录：{output.relative_to(ROOT)}")
+                st.success(f"已保存本地审阅记录：{output.name}")
 
 
 if __name__ == "__main__":

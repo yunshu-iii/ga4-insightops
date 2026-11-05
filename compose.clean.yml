@@ -1,9 +1,13 @@
 services:
   mysql:
-    container_name: insightops-clean-bootstrap-mysql
+    image: mysql:8.4
     environment:
       MYSQL_ROOT_PASSWORD: ${CLEAN_MYSQL_ROOT_PASSWORD:?Set CLEAN_MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: localhost
+      TZ: UTC
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/ddl:/docker-entrypoint-initdb.d:ro
 
 volumes:
   mysql_data:
-    name: insightops-clean-bootstrap-mysql-data

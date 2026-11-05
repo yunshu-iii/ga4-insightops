@@ -9,10 +9,10 @@
 在项目根目录执行：
 
 ```bash
-PYTHONPATH=src .venv/bin/streamlit run src/streamlit_review_app.py --server.headless true --server.port 8501
+PYTHONPATH=src .venv/bin/streamlit run src/streamlit_review_app.py --server.address 127.0.0.1 --server.headless true --server.port 8501
 ```
 
-浏览器访问 `http://localhost:8501`。页面会从 `artifacts/evidence_packages/` 中选择已有的 JSON 证据包；不提供上传任意文件、原始事件浏览或 SQL 输入。
+浏览器访问 `http://127.0.0.1:8501`。项目内 `.streamlit/config.toml` 同样固定本机监听；请在项目根目录启动，不要覆盖成 `0.0.0.0` 或开启端口转发。页面会从 `artifacts/evidence_packages/` 中选择已有的 JSON 证据包；不提供上传任意文件、原始事件浏览或 SQL 输入。
 
 ## 审阅链路
 
@@ -28,6 +28,7 @@ PYTHONPATH=src .venv/bin/streamlit run src/streamlit_review_app.py --server.head
 - 不调用 LLM，也不允许模型决定口径或业务动作。
 - 不修改数据库、模型、报告或外部业务系统；`automated_action_taken` 固定为 `false`。
 - 当前实现是本地审阅 MVP，尚未加入用户身份、访问控制或集中式审阅记录存储；若对外部署，需先补齐这些能力。
+- 同一台机器上的其他用户也属于本地访问者；自填审阅角色不代表经过身份认证。审阅记录目录已加入 Git 忽略规则。
 
 ## 当前示例
 
