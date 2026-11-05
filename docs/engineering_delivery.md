@@ -2,9 +2,9 @@
 
 ## CI
 
-`.github/workflows/quality.yml` 会在推送和 Pull Request 上使用 Python 3.11，安装
-`requirements.txt` 后执行 `make test`。该检查刻意不依赖 Docker、数据库、`.env`、本地
-数据或已生成报告，因此新检出的代码仓库可以独立验证源码、格式、编译和 11 项测试。
+`.github/workflows/quality.yml` 会在推送和 Pull Request 上分别使用 Python 3.11 和 3.14，
+按哈希安装 `requirements.lock` 后执行 `make test` 与锁定依赖的安全扫描。该检查不依赖
+Docker、数据库、`.env`、本地数据或已生成报告，可独立验证源码、格式、编译和 23 项测试。
 
 本地可使用：
 
@@ -39,14 +39,14 @@ make benchmark
 make clean-bootstrap
 ```
 
-该验证通过 `compose.clean.yml` 启动隔离实例：容器名
-`insightops-clean-bootstrap-mysql`、端口 `3307`、专用命名卷
-`insightops-clean-bootstrap-mysql-data`。脚本检查初始化后恰有四个 InsightOps schema，且至少
-十张业务表，随后在退出时删除上述临时容器、网络和专用数据卷。它不会修改正在使用的
-`insightops-mysql` 或其 `mysql_data` 卷。
+该验证独立使用 `compose.clean.yml`，每次生成不同的项目名、随机密码和项目专用卷，
+不读取真实 `.env`，不发布主机端口。脚本等待认证 SQL 查询成功后检查四个 InsightOps
+schema 和至少十张业务表，退出时只清理该次临时资源。它不会修改正在使用的
+`insightops-mysql` 或其 `mysql_data` 卷。运行需要 Docker、Bash 和 OpenSSL。
 
-首次验证曾因 Compose 对端口列表的合并语义保留了基础配置的 `3306:3306`，与主库冲突；现已改为
-在脚本中显式导出基础编排使用的 `MYSQL_PORT=3307`。修正后验证通过：4 个 schema、20 张表。
+2026-11-05 的安全修复取消了旧的 3307 端口映射和固定测试密码，并验证从零建立
+4 个 schema、17 张表后自动清理。历史验证中额外迁移后的表数见阶段记录，不等同于
+当前全新数据卷的 DDL 初始化结果。
 
 ## 已完成的连接层治理
 
@@ -57,5 +57,5 @@ make clean-bootstrap
 
 ## 已知后续优化
 
-- GitHub Actions 的首次 Quality 运行实际执行。初版因未创建 `.venv` 而失败；工作流现先创建 `.venv`、安装 `requirements.txt` 后运行 `make test`，修复后的第二次云端运行通过。云端只验证源码，不访问本地数据库、数据、报告或 `.env`。
+- GitHub Actions 初版因未创建 `.venv` 而失败，此问题已修复；当前先创建 `.venv`、按哈希安装 `requirements.lock` 后运行代码检查及依赖安全扫描。云端不访问本地数据库、数据、报告或 `.env`。
 - 本地报告已完成桌面与 390px 窄屏 QA；外网托管、跨浏览器矩阵、无障碍人工验收与多人/RBAC 仍属于部署前的后续能力。
